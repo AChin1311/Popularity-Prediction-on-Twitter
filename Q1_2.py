@@ -50,7 +50,7 @@ def linearReg(tw_per_hour):
 
     
 
-def openHash(filename):
+def openHashtag(filename):
     tw_per_hour = {}
     for i in range(14, 32):
       for j in range(24):
@@ -88,4 +88,4 @@ def openHash(filename):
 if __name__ == "__main__":
     for hashtag in hashtags:
         print("#" + hashtag)
-        openHash('tweet_data/tweets_#' + hashtag + '.txt')
+        openHashtag('tweet_data/tweets_#' + hashtag + '.txt')
