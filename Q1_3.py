@@ -23,8 +23,9 @@ def linearReg(tw_per_hour):
     prev_key = 0
     for _, value in tw_per_hour.items():
         # print(key, ' feature = ', tw_per_hour[key])   
-        X.append(value[0])
-    Y = X[1:]
+        X.append(value)
+        Y.append(value[0])
+    Y = Y[1:]
     print(len(Y))
 
     X = X[:-1]   
@@ -38,6 +39,17 @@ def linearReg(tw_per_hour):
 
 def openHash(filename):
     tw_per_hour = {}
+    for i in range(14, 32):
+      for j in range(24):
+        hr_str = 10000+(i)*100+j
+        tw_per_hour[hr_str] = [0, 0, 0, 0, j, 0]
+    for i in range(7): 
+      for j in range(24):
+        if i == 6 and j == 11:
+          break
+        hr_str = 20000+(i+1)*100+j
+        tw_per_hour[hr_str] = [0, 0, 0, 0, j, 0]
+
     with open(filename,'r') as f:
         tweets = f.readlines()
         for tw in tweets:
