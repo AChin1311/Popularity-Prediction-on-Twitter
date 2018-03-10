@@ -2,15 +2,34 @@ import json
 from datetime import datetime
 import pytz
 import collections
+import statsmodels.api as statapi
+import numpy as np
 
 pst_tz = pytz.timezone('US/Pacific') 
 hashtags = ['gohawks' 
-            # ,'gopatriots'
-            # ,'nfl'
-            # ,'patriots'
-            # ,'sb49'
-            # ,'superbowl'
+            ,'gopatriots'
+            ,'nfl'
+            ,'patriots'
+            ,'sb49'
+            ,'superbowl'
             ]
+
+def linearReg(tw_per_hour):
+    X = []
+    Y = []
+    flag = 0
+    prev_key = 0
+    for key, value in tw_per_hour.items():
+        print(key, ' feature = ', tw_per_hour[key])   
+        if flag != 0:
+            X.append(tw_per_hour[prev_key])
+            Y.append(tw_per_hour[key][0])
+        flag = 1
+        prev_key = key
+    X = np.array(X)
+    Y = np.array(Y)
+    result = statapi.OLS(Y, X).fit()
+    print(result.summary())
 
 def openHash(filename):
     tw_per_hour = {}
@@ -33,8 +52,7 @@ def openHash(filename):
 
 
     tw_per_hour = collections.OrderedDict(sorted(tw_per_hour.items()))
-    for key, value in tw_per_hour.items():
-        print(key, ' feature = ', tw_per_hour[key])
+    linearReg(tw_per_hour)
 
 if __name__ == "__main__":
     for hashtag in hashtags:
