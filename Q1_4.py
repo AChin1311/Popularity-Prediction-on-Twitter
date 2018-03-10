@@ -56,20 +56,52 @@ def seperate_data(data, n=5):
       between_event.append(v)
     elif k > 20120:
       after_event.append(v)
- 
+  
   before_event_X = [list(itertools.chain.from_iterable(before_event[i-n:i])) for i in range(n, len(before_event))]
-  before_event_Y = before_event[n:][0]
+  before_event_Y = [l[0] for l in before_event[n:]]
   between_event_X = [list(itertools.chain.from_iterable(between_event[i-n:i])) for i in range(n, len(between_event))]
-  between_event_Y = between_event[n:][0]
+  between_event_Y = [l[0] for l in between_event[n:]]
   after_event_X = [list(itertools.chain.from_iterable(after_event[i-n:i])) for i in range(n, len(after_event))]
-  after_event_Y = after_event[n:][0]
+  after_event_Y = [l[0] for l in after_event[n:]]
   
   return before_event_X, before_event_Y, between_event_X, between_event_Y, after_event_X, after_event_Y
+
+def linear_regr(X, Y):
+
+def kNN_regr(X, Y):
+
+def RF_regr(X, Y):
 
 
 if __name__ == "__main__":
   for fname in filenames:
     before_event_X, before_event_Y, between_event_X, between_event_Y, after_event_X, after_event_Y = read_data(fname)
-    print(before_event_X[:2])
-    print(before_event_Y[:2])
-    
+    print(len(before_event_X), len(between_event_X), len(after_event_X))
+    print(len(before_event_Y), len(between_event_Y), len(after_event_Y))
+
+    print("linear regrerssion:")
+    print("before event")
+    linear_regr(before_event_X, before_event_Y)
+    print("between event")
+    linear_regr(between_event_X, between_event_Y)
+    print("after event")
+    linear_regr(after_event_X, after_event_Y)
+    print('-'*20)
+  
+    print("kNN regrerssion:")
+    print("before event")
+    kNN_regr(before_event_X, before_event_Y)
+    print("between event")
+    kNN_regr(between_event_X, between_event_Y)
+    print("after event")
+    kNN_regr(after_event_X, after_event_Y)
+    print('-'*20)
+
+    print("random forest regrerssion:")
+    print("before event")
+    RF_regr(before_event_X, before_event_Y)
+    print("between event")
+    RF_regr(between_event_X, between_event_Y)
+    print("after event")
+    RF_regr(after_event_X, after_event_Y)
+    print('-'*20)
