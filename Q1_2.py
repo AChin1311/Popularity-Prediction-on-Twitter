@@ -4,6 +4,9 @@ import pytz
 import collections
 import statsmodels.api as statapi
 import numpy as np
+from sklearn.metrics import mean_squared_error
+from math import sqrt
+import matplotlib.pyplot as plt
 
 pst_tz = pytz.timezone('US/Pacific') 
 hashtags = ['gohawks' 
@@ -21,10 +24,13 @@ def linearReg(tw_per_hour):
     # 1 2 3
     flag = 0
     prev_key = 0
-    for _, value in tw_per_hour.items():
+    for key, value in tw_per_hour.items():
         # print(key, ' feature = ', tw_per_hour[key])   
-        X.append(value[0])
-    Y = X[1:]
+        print(key)
+        X.append(value)
+        Y.append(value[0])
+
+    Y = Y[1:]
     print(len(Y))
 
     X = X[:-1]   
@@ -34,12 +40,32 @@ def linearReg(tw_per_hour):
     X = np.array(X)
     Y = np.array(Y)
     result = statapi.OLS(Y, X).fit()
+
     print(result.summary())
+
+    mse = mean_squared_error(Y, result.predict())
+    rmse = sqrt(mse)
+
+    print('rmse = ', rmse)
+
+    
 
 def openHash(filename):
     tw_per_hour = {}
+    for i in range(14, 32):
+      for j in range(24):
+        hr_str = 10000+(i)*100+j
+        tw_per_hour[hr_str] = [0, 0, 0, 0, j]
+    for i in range(7): 
+      for j in range(24):
+        if i == 6 and j == 11:
+          break
+        hr_str = 20000+(i+1)*100+j
+        tw_per_hour[hr_str] = [0, 0, 0, 0, j]
+
     with open(filename,'r') as f:
         tweets = f.readlines()
+
         for tw in tweets:
             tw = json.loads(tw)
             time_str = datetime.fromtimestamp(tw["citation_date"], pst_tz)
