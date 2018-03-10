@@ -7,11 +7,11 @@ import numpy as np
 
 pst_tz = pytz.timezone('US/Pacific') 
 hashtags = ['gohawks' 
-            ,'gopatriots'
-            ,'nfl'
-            ,'patriots'
-            ,'sb49'
-            ,'superbowl'
+            # ,'gopatriots'
+            # ,'nfl'
+            # ,'patriots'
+            # ,'sb49'
+            # ,'superbowl'
             ]
 
 def linearReg(tw_per_hour):
@@ -20,7 +20,7 @@ def linearReg(tw_per_hour):
     flag = 0
     prev_key = 0
     for key, value in tw_per_hour.items():
-        print(key, ' feature = ', tw_per_hour[key])   
+        # print(key, ' feature = ', tw_per_hour[key])   
         if flag != 0:
             X.append(tw_per_hour[prev_key])
             Y.append(tw_per_hour[key][0])
