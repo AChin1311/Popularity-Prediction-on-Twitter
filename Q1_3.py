@@ -17,19 +17,24 @@ hashtags = ['gohawks'
 def linearReg(tw_per_hour):
     X = []
     Y = []
+    # 0 1 2 3 
+    # 1 2 3
     flag = 0
     prev_key = 0
-    for key, value in tw_per_hour.items():
+    for _, value in tw_per_hour.items():
         # print(key, ' feature = ', tw_per_hour[key])   
-        if flag != 0:
-            X.append(tw_per_hour[prev_key])
-            Y.append(tw_per_hour[key][0])
-        flag = 1
-        prev_key = key
+        X.append(value[0])
+    Y = X[1:]
+    print(len(Y))
+
+    X = X[:-1]   
+    print(len(X))
+    
     X = np.array(X)
     Y = np.array(Y)
     result = statapi.OLS(Y, X).fit()
     print(result.summary())
+
 
 def openHash(filename):
     tw_per_hour = {}
