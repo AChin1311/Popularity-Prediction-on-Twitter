@@ -17,24 +17,35 @@ hashtags = ['gohawks'
             # ,'superbowl'
             ]
 
-def linearReg(tw_per_hour):
+def linearReg(tw_per_hour, n, feature):
     X = []
     Y = []
     # 0 1 2 3 
     # 1 2 3
-    flag = 0
-    prev_key = 0
+    prev_value = []
     for key, value in tw_per_hour.items():
         # print(key, ' feature = ', tw_per_hour[key])   
-        print(key)
-        X.append(value)
-        Y.append(value[0])
+        # print(key)
+        prev_value += value
 
-    Y = Y[1:]
+    f_len = n*feature
+    first = 0
+    while 1:
+        X.append(prev_value[first:first+f_len])  
+        Y.append(prev_value[f_len+first])
+        first += feature
+
+        if first + f_len > len(prev_value) -1:
+            break
+
+
+    
+
+    # Y = Y[n:]
     print(len(Y))
 
-    X = X[:-1]   
-    print(len(X))
+    # X = X[n-1:-1]   
+    print(len(X[0]))
     
 
     X = np.array(X)
@@ -83,7 +94,9 @@ def openHashtag(filename):
 
 
     tw_per_hour = collections.OrderedDict(sorted(tw_per_hour.items()))
-    linearReg(tw_per_hour)
+    feature = 5
+    for n in range(1,25):
+        linearReg(tw_per_hour,n,feature)
 
 if __name__ == "__main__":
     for hashtag in hashtags:
