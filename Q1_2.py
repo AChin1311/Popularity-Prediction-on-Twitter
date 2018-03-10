@@ -95,7 +95,7 @@ def openHashtag(filename):
 
     tw_per_hour = collections.OrderedDict(sorted(tw_per_hour.items()))
     feature = 5
-    for n in range(1,25):
+    for n in range(1,6):
         linearReg(tw_per_hour,n,feature)
 
 if __name__ == "__main__":
