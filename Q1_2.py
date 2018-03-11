@@ -17,6 +17,18 @@ hashtags = ['gohawks'
             # ,'superbowl'
             ]
 
+def linear_regr(X, Y):
+    X = np.array(X)
+    Y = np.array(Y)
+    result = statapi.OLS(Y, X).fit()
+
+    print(result.summary())
+
+    mse = mean_squared_error(Y, result.predict())
+    rmse = sqrt(mse)
+
+    print('rmse = ', rmse) 
+
 def linearReg(tw_per_hour, n, feature):
     X = []
     Y = []
@@ -38,26 +50,13 @@ def linearReg(tw_per_hour, n, feature):
         if first + f_len > len(prev_value) -1:
             break
 
-
-    
-
     # Y = Y[n:]
-    print(len(Y))
+    # print(len(Y))
 
     # X = X[n-1:-1]   
-    print(len(X[0]))
+    # print(len(X[0]))
     
-
-    X = np.array(X)
-    Y = np.array(Y)
-    result = statapi.OLS(Y, X).fit()
-
-    print(result.summary())
-
-    mse = mean_squared_error(Y, result.predict())
-    rmse = sqrt(mse)
-
-    print('rmse = ', rmse)
+    linear_regr(X, Y)
 
     
 

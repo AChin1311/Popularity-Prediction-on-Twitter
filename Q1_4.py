@@ -67,7 +67,16 @@ def seperate_data(data, n=5):
   return before_event_X, before_event_Y, between_event_X, between_event_Y, after_event_X, after_event_Y
 
 def linear_regr(X, Y):
+    X = np.array(X)
+    Y = np.array(Y)
+    result = statapi.OLS(Y, X).fit()
 
+    print(result.summary())
+
+    mse = mean_squared_error(Y, result.predict())
+    rmse = sqrt(mse)
+
+    print('rmse = ', rmse)
 def kNN_regr(X, Y):
 
 def RF_regr(X, Y):
