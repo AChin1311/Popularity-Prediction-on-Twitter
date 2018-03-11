@@ -75,14 +75,15 @@ def seperate_data(data, n=5):
 def linear_regr(X, Y):
   X = np.array(X)
   Y = np.array(Y)
-  result = statapi.OLS(Y, X).fit()
+  kf = KFold(n_splits=min(len(Y), 10), random_state=None, shuffle=False)
+  test_error = []
+  for train_index, test_index in kf.split(X):
+    X_train, X_test = X[train_index], X[test_index]
+    Y_train, Y_test = Y[train_index], Y[test_index]
+    Y_predict = statapi.OLS(Y_train, X_train).fit()
+    test_error.append(mean_absolute_error(Y_test, Y_predict))
+  print("Mean Absolute Error: ", np.mean(test_error))
 
-  print(result.summary())
-
-  mse = mean_squared_error(Y, result.predict())
-  rmse = sqrt(mse)
-
-  print('rmse = ', rmse)
 
 def kNN_regr(X, Y):
   X = np.array(X)
@@ -121,14 +122,14 @@ if __name__ == "__main__":
     print(len(before_event_X), len(between_event_X), len(after_event_X))
     print(len(before_event_Y), len(between_event_Y), len(after_event_Y))
 
-    # print("linear regrerssion:")
-    # print("before event")
-    # linear_regr(before_event_X, before_event_Y)
-    # print("between event")
-    # linear_regr(between_event_X, between_event_Y)
-    # print("after event")
-    # linear_regr(after_event_X, after_event_Y)
-    # print('-'*20)
+    print("linear regrerssion:")
+    print("before event")
+    linear_regr(before_event_X, before_event_Y)
+    print("between event")
+    linear_regr(between_event_X, between_event_Y)
+    print("after event")
+    linear_regr(after_event_X, after_event_Y)
+    print('-'*20)
   
     print("kNN regrerssion:")
     print("before event")
