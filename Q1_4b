@@ -1,0 +1,21 @@
+435 8 129
+435 8 129
+435 8 129
+435 8 129
+435 8 129
+435 8 129
+435 8 129
+435 8 129
+435 8 129
+435 8 129
+435 8 129
+435 8 129
+random forest regrerssion:
+before event
+Mean Absolute Error:  44.87542252022136
+between event
+Mean Absolute Error:  7024.310416666667
+after event
+Mean Absolute Error:  25.74736201687106
+--------------------
+--------------------
