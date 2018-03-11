@@ -2,6 +2,7 @@ import json
 from datetime import datetime
 import pytz
 import collections
+import statsmodels.api as statapi
 import itertools
 
 pst_tz = pytz.timezone('US/Pacific') 
