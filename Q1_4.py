@@ -6,6 +6,7 @@ import statsmodels.api as statapi
 import itertools
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_absolute_error
+from sklearn.neighbors import KNeighborsRegressor
 from sklearn.model_selection import KFold
 import numpy as np
 
@@ -84,7 +85,18 @@ def linear_regr(X, Y):
   print('rmse = ', rmse)
 
 def kNN_regr(X, Y):
-  pass
+  X = np.array(X)
+  Y = np.array(Y)
+  kf = KFold(n_splits=min(len(Y), 10), random_state=None, shuffle=False)
+  test_error = []
+  for train_index, test_index in kf.split(X):
+    X_train, X_test = X[train_index], X[test_index]
+    Y_train, Y_test = Y[train_index], Y[test_index]
+    regr = KNeighborsRegressor(n_neighbors = min(10,len(Y)-1), n_jobs=-1)
+    regr.fit(X_train, Y_train)
+    Y_predict = regr.predict(X_test)
+    test_error.append(mean_absolute_error(Y_test, Y_predict))
+  print("Mean Absolute Error: ", np.mean(test_error))
 
 def RF_regr(X, Y):
   X = np.array(X)
@@ -98,8 +110,8 @@ def RF_regr(X, Y):
     test_size = X_test.shape[0]
     regr = RandomForestRegressor(n_estimators=20, n_jobs=-1)
     regr.fit(X_train, Y_train)
-    Y_test_predict = regr.predict(X_test)
-    test_error.append(mean_absolute_error(Y_test, Y_test_predict))
+    Y_predict = regr.predict(X_test)
+    test_error.append(mean_absolute_error(Y_test, Y_predict))
   
   print("error: ", np.mean(test_error))
 
@@ -118,14 +130,14 @@ if __name__ == "__main__":
     # linear_regr(after_event_X, after_event_Y)
     # print('-'*20)
   
-    # print("kNN regrerssion:")
-    # print("before event")
-    # kNN_regr(before_event_X, before_event_Y)
-    # print("between event")
-    # kNN_regr(between_event_X, between_event_Y)
-    # print("after event")
-    # kNN_regr(after_event_X, after_event_Y)
-    # print('-'*20)
+    print("kNN regrerssion:")
+    print("before event")
+    kNN_regr(before_event_X, before_event_Y)
+    print("between event")
+    kNN_regr(between_event_X, between_event_Y)
+    print("after event")
+    kNN_regr(after_event_X, after_event_Y)
+    print('-'*20)
 
     print("random forest regrerssion:")
     print("before event")
