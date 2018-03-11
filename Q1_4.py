@@ -11,8 +11,8 @@ from sklearn.model_selection import KFold
 import numpy as np
 
 pst_tz = pytz.timezone('US/Pacific') 
-# filenames = ["tweets_#gohawks.txt", "tweets_#nfl.txt", "tweets_#sb49.txt", "tweets_#gopatriots.txt", "tweets_#patriots.txt", "tweets_#superbowl.txt"]
-filenames = ["tweets_#gohawks.txt"]
+filenames = ["tweets_#gohawks.txt", "tweets_#nfl.txt", "tweets_#sb49.txt", "tweets_#gopatriots.txt", "tweets_#patriots.txt", "tweets_#superbowl.txt"]
+# filenames = ["tweets_#gohawks.txt"]
 
 def read_data(filename):
   tw_per_hour = {}
@@ -123,6 +123,8 @@ if __name__ == "__main__":
     print(len(before_event_X), len(between_event_X), len(after_event_X))
     print(len(before_event_Y), len(between_event_Y), len(after_event_Y))
 
+    print(fname)
+
     print("linear regrerssion:")
     print("before event")
     linear_regr(before_event_X, before_event_Y)
@@ -148,4 +150,5 @@ if __name__ == "__main__":
     RF_regr(between_event_X, between_event_Y)
     print("after event")
     RF_regr(after_event_X, after_event_Y)
+    print('-'*20)
     print('-'*20)

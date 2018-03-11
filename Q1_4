@@ -1,0 +1,168 @@
+435 8 129
+435 8 129
+tweets_#gohawks.txt
+linear regrerssion:
+before event
+Mean Absolute Error:  366.7012995813254
+between event
+Mean Absolute Error:  30347.83223027447
+after event
+Mean Absolute Error:  49.47812705640219
+--------------------
+kNN regrerssion:
+before event
+Mean Absolute Error:  188.86503699788585
+between event
+Mean Absolute Error:  3714.285714285714
+after event
+Mean Absolute Error:  20.51826923076923
+--------------------
+random forest regrerssion:
+before event
+error:  168.05232558139534
+between event
+error:  3487.35
+after event
+error:  17.319903846153846
+--------------------
+--------------------
+435 8 129
+435 8 129
+tweets_#nfl.txt
+linear regrerssion:
+before event
+Mean Absolute Error:  134.1872891235391
+between event
+Mean Absolute Error:  4511.927915743323
+after event
+Mean Absolute Error:  113.68572802959287
+--------------------
+kNN regrerssion:
+before event
+Mean Absolute Error:  146.2562420718816
+between event
+Mean Absolute Error:  4010.5
+after event
+Mean Absolute Error:  182.02660256410257
+--------------------
+random forest regrerssion:
+before event
+error:  120.1465142706131
+between event
+error:  4059.70625
+after event
+error:  141.65519230769232
+--------------------
+--------------------
+435 8 129
+435 8 129
+tweets_#sb49.txt
+linear regrerssion:
+before event
+Mean Absolute Error:  52.33190463931307
+between event
+Mean Absolute Error:  344032.7971062511
+after event
+Mean Absolute Error:  90.90928783162796
+--------------------
+kNN regrerssion:
+before event
+Mean Absolute Error:  64.13757928118393
+between event
+Mean Absolute Error:  31340.428571428572
+after event
+Mean Absolute Error:  207.97839743589742
+--------------------
+random forest regrerssion:
+before event
+error:  48.47044331395349
+between event
+error:  23369.0125
+after event
+error:  152.1932051282051
+--------------------
+--------------------
+435 8 129
+435 8 129
+tweets_#gopatriots.txt
+linear regrerssion:
+before event
+Mean Absolute Error:  12.681162082452639
+between event
+Mean Absolute Error:  2898.1676379668343
+after event
+Mean Absolute Error:  5.354961189261486
+--------------------
+kNN regrerssion:
+before event
+Mean Absolute Error:  13.153557082452432
+between event
+Mean Absolute Error:  1388.857142857143
+after event
+Mean Absolute Error:  3.043397435897436
+--------------------
+random forest regrerssion:
+before event
+error:  11.107161733615222
+between event
+error:  1418.46875
+after event
+error:  2.824707264957265
+--------------------
+--------------------
+435 8 129
+435 8 129
+tweets_#patriots.txt
+linear regrerssion:
+before event
+Mean Absolute Error:  281.7089965753965
+between event
+Mean Absolute Error:  30064.802307934144
+after event
+Mean Absolute Error:  134.49937541058725
+--------------------
+kNN regrerssion:
+before event
+Mean Absolute Error:  219.50288054968286
+between event
+Mean Absolute Error:  12249.607142857141
+after event
+Mean Absolute Error:  106.3073076923077
+--------------------
+random forest regrerssion:
+before event
+error:  204.9542362579281
+between event
+error:  11671.918749999999
+after event
+error:  85.49439102564101
+--------------------
+--------------------
+435 8 129
+435 8 129
+tweets_#superbowl.txt
+linear regrerssion:
+before event
+Mean Absolute Error:  311.5095820463487
+between event
+Mean Absolute Error:  620788.7709917312
+after event
+Mean Absolute Error:  248.52686292267555
+--------------------
+kNN regrerssion:
+before event
+Mean Absolute Error:  358.08988900634256
+between event
+Mean Absolute Error:  92394.89285714287
+after event
+Mean Absolute Error:  381.9437820512821
+--------------------
+random forest regrerssion:
+before event
+error:  272.09760306553915
+between event
+error:  86837.55
+after event
+error:  280.87945512820517
+--------------------
+--------------------
