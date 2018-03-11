@@ -118,37 +118,49 @@ def RF_regr(X, Y):
   print("error: ", np.mean(test_error))
 
 if __name__ == "__main__":
+
+  before_event_X = []
+  before_event_Y = []
+  between_event_X = [] 
+  between_event_Y = []
+  after_event_X = []
+  after_event_Y = []
+
   for fname in filenames:
-    before_event_X, before_event_Y, between_event_X, between_event_Y, after_event_X, after_event_Y = read_data(fname)
-    print(len(before_event_X), len(between_event_X), len(after_event_X))
-    print(len(before_event_Y), len(between_event_Y), len(after_event_Y))
+    before_X, before_Y, between_X, between_Y, after_X, after_Y = read_data(fname)
+    print(len(before_X), len(between_X), len(after_X))
+    print(len(before_Y), len(between_Y), len(after_Y))
+    before_event_X.extend(before_X)
+    before_event_Y.extend(before_Y)
+    between_event_X.extend(between_X)
+    between_event_Y.extend(between_Y)
+    after_event_X.extend(after_X)
+    after_event_Y.extend(after_Y)
 
-    print(fname)
+  print("linear regrerssion:")
+  print("before event")
+  linear_regr(before_event_X, before_event_Y)
+  print("between event")
+  linear_regr(between_event_X, between_event_Y)
+  print("after event")
+  linear_regr(after_event_X, after_event_Y)
+  print('-'*20)
 
-    print("linear regrerssion:")
-    print("before event")
-    linear_regr(before_event_X, before_event_Y)
-    print("between event")
-    linear_regr(between_event_X, between_event_Y)
-    print("after event")
-    linear_regr(after_event_X, after_event_Y)
-    print('-'*20)
-  
-    print("kNN regrerssion:")
-    print("before event")
-    kNN_regr(before_event_X, before_event_Y)
-    print("between event")
-    kNN_regr(between_event_X, between_event_Y)
-    print("after event")
-    kNN_regr(after_event_X, after_event_Y)
-    print('-'*20)
+  print("kNN regrerssion:")
+  print("before event")
+  kNN_regr(before_event_X, before_event_Y)
+  print("between event")
+  kNN_regr(between_event_X, between_event_Y)
+  print("after event")
+  kNN_regr(after_event_X, after_event_Y)
+  print('-'*20)
 
-    print("random forest regrerssion:")
-    print("before event")
-    RF_regr(before_event_X, before_event_Y)
-    print("between event")
-    RF_regr(between_event_X, between_event_Y)
-    print("after event")
-    RF_regr(after_event_X, after_event_Y)
-    print('-'*20)
-    print('-'*20)
+  print("random forest regrerssion:")
+  print("before event")
+  RF_regr(before_event_X, before_event_Y)
+  print("between event")
+  RF_regr(between_event_X, between_event_Y)
+  print("after event")
+  RF_regr(after_event_X, after_event_Y)
+  print('-'*20)
+  print('-'*20)
