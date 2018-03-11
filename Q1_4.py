@@ -63,12 +63,17 @@ def seperate_data(data, n=5):
     elif k > 20120:
       after_event.append(v)
 
+  
   before_event_X = [list(itertools.chain.from_iterable(before_event[i-n:i])) for i in range(n, len(before_event))]
   before_event_Y = [l[0] for l in before_event[n:]]
-  between_event_X = [list(itertools.chain.from_iterable(between_event[i-n:i])) for i in range(n, len(between_event))]
-  between_event_Y = [l[0] for l in between_event[n:]]
-  after_event_X = [list(itertools.chain.from_iterable(after_event[i-n:i])) for i in range(n, len(after_event))]
-  after_event_Y = [l[0] for l in after_event[n:]]
+
+  between_event_Y = [l[0] for l in between_event]
+  between_event = before_event[-5:]+between_event
+  between_event_X = [list(itertools.chain.from_iterable(between_event[i:i+n])) for i in range(0, len(between_event)-n)]
+  
+  after_event_Y = [l[0] for l in after_event]
+  after_event = between_event[-5:]+after_event
+  after_event_X = [list(itertools.chain.from_iterable(after_event[i:i+n])) for i in range(0, len(after_event)-n)]
   
   return before_event_X, before_event_Y, between_event_X, between_event_Y, after_event_X, after_event_Y
 
@@ -115,7 +120,7 @@ def RF_regr(X, Y):
     Y_predict = regr.predict(X_test)
     test_error.append(mean_absolute_error(Y_test, Y_predict))
   
-  print("error: ", np.mean(test_error))
+  print("Mean Absolute Error: ", np.mean(test_error))
 
 if __name__ == "__main__":
   for fname in filenames:
