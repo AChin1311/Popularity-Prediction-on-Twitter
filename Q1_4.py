@@ -81,6 +81,7 @@ def linear_regr(X, Y):
     X_train, X_test = X[train_index], X[test_index]
     Y_train, Y_test = Y[train_index], Y[test_index]
     Y_predict = statapi.OLS(Y_train, X_train).fit()
+    Y_predict = Y_predict.predict(X_test)
     test_error.append(mean_absolute_error(Y_test, Y_predict))
   print("Mean Absolute Error: ", np.mean(test_error))
 
