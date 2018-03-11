@@ -64,10 +64,16 @@ def seperate_data(data, n=5):
     elif k > 20120:
       after_event.append(v)
 
+  between_event = before_event[-5:]+between_event
+  after_event = between_event[-5:]+after_event
+
   before_event_X = [list(itertools.chain.from_iterable(before_event[i-n:i])) for i in range(n, len(before_event))]
   before_event_Y = [l[0] for l in before_event[n:]]
+
+
   between_event_X = [list(itertools.chain.from_iterable(between_event[i-n:i])) for i in range(n, len(between_event))]
   between_event_Y = [l[0] for l in between_event[n:]]
+  
   after_event_X = [list(itertools.chain.from_iterable(after_event[i-n:i])) for i in range(n, len(after_event))]
   after_event_Y = [l[0] for l in after_event[n:]]
   
@@ -107,7 +113,7 @@ def kNN_regr(X, Y, fl):
   # print("k with min error = ", k_error.index(min(k_error))+10, min(k_error))
   plt.plot(range(1,51), k_error, label=fl)
 
-def RF_regr(X, Y):
+def RF_regr(X, Y, fl):
   X = np.array(X)
   Y = np.array(Y)
   test_error =[]
@@ -126,6 +132,7 @@ def RF_regr(X, Y):
       test_error.append(mean_absolute_error(Y_test, Y_predict))
     k_error.append(np.mean(test_error))
     # print("error: ", np.mean(test_error))
+  print("min: ", k_error.index(min(k_error)), min(k_error))
   plt.plot(range(10, 101, 10), k_error, label=fl)
 
 
@@ -144,9 +151,9 @@ if __name__ == "__main__":
     # linear_regr(after_event_X, after_event_Y)
     # print('-'*20)
   
-    print("kNN regrerssion:")
-    print("before event")
-    kNN_regr(before_event_X, before_event_Y, fname)
+    # print("kNN regrerssion:")
+    # print("before event")
+    # kNN_regr(before_event_X, before_event_Y, fname)
     # print("between event")
     # kNN_regr(between_event_X, between_event_Y)
     # print("after event")
@@ -155,16 +162,16 @@ if __name__ == "__main__":
 
     
 
-    # print("random forest regrerssion:")
-    # print("before event")
-    # RF_regr(before_event_X, before_event_Y)
+    print("random forest regrerssion:")
+    print("before event")
+    # RF_regr(before_event_X, before_event_Y, fname)
     # print("between event")
     # RF_regr(between_event_X, between_event_Y)
     # print("after event")
-    # RF_regr(after_event_X, after_event_Y)
+    RF_regr(after_event_X, after_event_Y, fname)
     # print('-'*20)
 
 
   plt.legend()
-  plt.savefig('plot/before_event_knn.png')
+  plt.savefig('plot/after_event_RF.png')
   plt.clf()
