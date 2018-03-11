@@ -10,12 +10,21 @@ import matplotlib.pyplot as plt
 
 pst_tz = pytz.timezone('US/Pacific') 
 hashtags = ['gohawks' 
-            # ,'gopatriots'
-            # ,'nfl'
-            # ,'patriots'
-            # ,'sb49'
-            # ,'superbowl'
+            ,'gopatriots'
+            ,'nfl'
+            ,'patriots'
+            ,'sb49'
+            ,'superbowl'
             ]
+
+def plot(x, para, label, hashtag):
+    plt.figure()
+    plt.plot(x, para)
+    plt.xlabel('n-hour')
+    plt.ylabel(label)
+    plt.savefig('plot/' + hashtag + '_' + label + '.png')
+    plt.clf()
+    return 0
 
 def linear_regr(X, Y):
     X = np.array(X)
@@ -27,7 +36,10 @@ def linear_regr(X, Y):
     mse = mean_squared_error(Y, result.predict())
     rmse = sqrt(mse)
 
-    print('rmse = ', rmse) 
+    rsquare = result.rsquared
+
+    return rmse, rsquare
+
 
 def linearReg(tw_per_hour, n, feature):
     X = []
@@ -56,11 +68,11 @@ def linearReg(tw_per_hour, n, feature):
     # X = X[n-1:-1]   
     # print(len(X[0]))
     
-    linear_regr(X, Y)
-
+    rmse, rsquare = linear_regr(X, Y)
+    return rmse, rsquare
     
 
-def openHashtag(filename):
+def openHashtag(filename, hashtag):
     tw_per_hour = {}
     for i in range(14, 32):
       for j in range(24):
@@ -94,10 +106,18 @@ def openHashtag(filename):
 
     tw_per_hour = collections.OrderedDict(sorted(tw_per_hour.items()))
     feature = 5
-    for n in range(1,6):
-        linearReg(tw_per_hour,n,feature)
+    _rmse = [] 
+    _rsquare = []
+    x = list(range(1,25))
+    for n in x:
+        rmse, rsquare = linearReg(tw_per_hour,n,feature)
+        _rmse.append(rmse)
+        _rsquare.append(rsquare)
+
+    plot(x, _rmse, 'rmse', hashtag)
+    plot(x, _rsquare, 'rsquare', hashtag)
 
 if __name__ == "__main__":
     for hashtag in hashtags:
         print("#" + hashtag)
-        openHashtag('tweet_data/tweets_#' + hashtag + '.txt')
+        openHashtag('tweet_data/tweets_#' + hashtag + '.txt', hashtag)
