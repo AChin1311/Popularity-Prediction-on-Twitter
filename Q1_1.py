@@ -4,25 +4,28 @@ import pytz
 import matplotlib.pyplot as plt 
 import collections
 
+def init_tw_per_hour():
+  tw_per_hour = {}
+  # init tw_per_hour start from 1/14/00:00 to 2/7/10:00
+  for i in range(14, 32):
+    for j in range(24):
+      hr_str = 10000+(i)*100+j
+      tw_per_hour[hr_str] = 0
+
+  for i in range(7): 
+    for j in range(24):
+      if i == 6 and j == 11:
+        break
+      hr_str = 20000+(i+1)*100+j
+      tw_per_hour[hr_str] = 0
+  return tw_per_hour
+
 def Q1_1_1(filenames=["tweets_#gohawks.txt", "tweets_#nfl.txt", "tweets_#sb49.txt", "tweets_#gopatriots.txt", "tweets_#patriots.txt", "tweets_#superbowl.txt"]):
   for fname in filenames: 
-    tw_per_hour = {}
+    tw_per_hour = init_tw_per_hour()
     followers_num = 0
     retweets_num = 0
     line = 0
-
-    # init tw_per_hour start from 1/14/00:00 to 2/7/10:00
-    for i in range(14, 32):
-      for j in range(24):
-        hr_str = 10000+(i)*100+j
-        tw_per_hour[hr_str] = 0
-
-    for i in range(7): 
-      for j in range(24):
-        if i == 6 and j == 11:
-          break
-        hr_str = 20000+(i+1)*100+j
-        tw_per_hour[hr_str] = 0
 
     with open("tweet_data/"+fname) as f:
       tweets = f.readlines()
@@ -51,20 +54,7 @@ def Q1_1_2(filenames=["tweets_#nfl.txt", "tweets_#superbowl.txt"]):
 
 
   for fname in filenames: 
-    tw_per_hour = {}
-    # init tw_per_hour start from 1/14/00:00 to 2/7/10:00
-    for i in range(14, 32):
-      for j in range(24):
-        hr_str = 10000+(i)*100+j
-        tw_per_hour[hr_str] = 0
-
-    for i in range(7): 
-      for j in range(24):
-        if i == 6 and j == 11:
-          break
-        hr_str = 20000+(i+1)*100+j
-        tw_per_hour[hr_str] = 0
-
+    tw_per_hour = init_tw_per_hour()
     line = 0
     with open("tweet_data/"+fname) as f:
       tweets = f.readlines()
