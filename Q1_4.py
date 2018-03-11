@@ -4,6 +4,10 @@ import pytz
 import collections
 import statsmodels.api as statapi
 import itertools
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.metrics import mean_absolute_error
+from sklearn.model_selection import KFold
+import numpy as np
 
 pst_tz = pytz.timezone('US/Pacific') 
 # filenames = ["tweets_#gohawks.txt", "tweets_#nfl.txt", "tweets_#sb49.txt", "tweets_#gopatriots.txt", "tweets_#patriots.txt", "tweets_#superbowl.txt"]
@@ -57,7 +61,7 @@ def seperate_data(data, n=5):
       between_event.append(v)
     elif k > 20120:
       after_event.append(v)
-  
+
   before_event_X = [list(itertools.chain.from_iterable(before_event[i-n:i])) for i in range(n, len(before_event))]
   before_event_Y = [l[0] for l in before_event[n:]]
   between_event_X = [list(itertools.chain.from_iterable(between_event[i-n:i])) for i in range(n, len(between_event))]
@@ -68,20 +72,36 @@ def seperate_data(data, n=5):
   return before_event_X, before_event_Y, between_event_X, between_event_Y, after_event_X, after_event_Y
 
 def linear_regr(X, Y):
-    X = np.array(X)
-    Y = np.array(Y)
-    result = statapi.OLS(Y, X).fit()
+  X = np.array(X)
+  Y = np.array(Y)
+  result = statapi.OLS(Y, X).fit()
 
-    print(result.summary())
+  print(result.summary())
 
-    mse = mean_squared_error(Y, result.predict())
-    rmse = sqrt(mse)
+  mse = mean_squared_error(Y, result.predict())
+  rmse = sqrt(mse)
 
-    print('rmse = ', rmse)
+  print('rmse = ', rmse)
+
 def kNN_regr(X, Y):
+  pass
 
 def RF_regr(X, Y):
-
+  X = np.array(X)
+  Y = np.array(Y)
+  test_error =[]
+  kf = KFold(n_splits=min(len(Y), 10), random_state=None, shuffle=False)
+  for train_index, test_index in kf.split(X):
+    X_train, X_test = X[train_index], X[test_index]
+    Y_train, Y_test = Y[train_index], Y[test_index]
+    train_size = X_train.shape[0]
+    test_size = X_test.shape[0]
+    regr = RandomForestRegressor(n_estimators=20, n_jobs=-1)
+    regr.fit(X_train, Y_train)
+    Y_test_predict = regr.predict(X_test)
+    test_error.append(mean_absolute_error(Y_test, Y_test_predict))
+  
+  print("error: ", np.mean(test_error))
 
 if __name__ == "__main__":
   for fname in filenames:
