@@ -9,13 +9,13 @@ from sklearn.metrics import mean_absolute_error
 from sklearn.neighbors import KNeighborsRegressor
 from sklearn.model_selection import KFold
 import numpy as np
-import Q1_4
+import Q1_4b
 
 pst_tz = pytz.timezone('US/Pacific') 
 filenames = ["tweets_#gohawks.txt", "tweets_#nfl.txt", "tweets_#sb49.txt", "tweets_#gopatriots.txt", "tweets_#patriots.txt", "tweets_#superbowl.txt"]
 test_filenames = ["sample1_period1.txt", "sample2_period2.txt", "sample3_period3.txt", "sample4_period1.txt", "sample5_period1.txt", "sample6_period2.txt", "sample7_period3.txt", "sample9_period2.txt", "sample10_period3.txt"]
 
-def read_test_data(filename):
+def read_test(filename):
   tw_per_hour = {}
 
   with open('test_data/'+filename,'r') as f:
@@ -23,7 +23,7 @@ def read_test_data(filename):
 
     for tw in tweets:
       tw = json.loads(tw)
-      time_str = datetime.fromtimestamp(tw["citation_date"], pst_tz)
+      time_str = datetime.fromtimestamp(tw["firstpost_date"], pst_tz)
       post_hour = (time_str.month * 100 + time_str.day) * 100 + time_str.hour
       rt = tw['metrics']['citations']['total']
       followers = tw['author']['followers']
@@ -36,9 +36,9 @@ def read_test_data(filename):
         tw_per_hour[post_hour] = [1, rt, followers, followers, post_hour%100]
 
   tw_per_hour = collections.OrderedDict(sorted(tw_per_hour.items()))
-  return seperate_test_data(tw_per_hour)
+  return seperate_test(tw_per_hour)
 
-def seperate_test_data(data, n=5):
+def seperate_test(data, n=5):
   before_event = []
   between_event = []
   after_event = []
@@ -69,27 +69,13 @@ def RF_regr(X, Y):
 
 if __name__ == "__main__":
 
-  before_event_X = []
-  before_event_Y = []
-  between_event_X = [] 
-  between_event_Y = []
-  after_event_X = []
-  after_event_Y = []
+  before_event_X, before_event_Y, between_event_X, between_event_Y, after_event_X, after_event_Y = Q1_4b.read_all_data(filenames)
+  print(len(before_event_X), len(between_event_X), len(after_event_X))
+  print(len(before_event_Y), len(between_event_Y), len(after_event_Y))
 
-  for fname in filenames:
-    print(fname)
-    before_X, before_Y, between_X, between_Y, after_X, after_Y = Q1_4.read_data(fname)
-    before_event_X.extend(before_X)
-    before_event_Y.extend(before_Y)
-    between_event_X.extend(between_X)
-    between_event_Y.extend(between_Y)
-    after_event_X.extend(after_X)
-    after_event_Y.extend(after_Y)
-
-  
   for test_fname in test_filenames:
     print(test_fname)
-    before_test_X, before_test_Y, between_test_X, between_test_Y, after_test_X, after_test_Y = read_test_data(test_fname)
+    before_test_X, before_test_Y, between_test_X, between_test_Y, after_test_X, after_test_Y = read_test(test_fname)
     print(len(before_test_X), len(before_test_Y), len(between_test_X), len(between_test_Y), len(after_test_X), len(after_test_Y))
 
     print("random forest regression:")
@@ -99,6 +85,8 @@ if __name__ == "__main__":
       regr = RF_regr(before_event_X, before_event_Y)
       Y_predict = regr.predict(before_test_X)
       test_error = abs(before_test_Y[0] - Y_predict[0])
+      print("Predicted number of tweets: ", Y_predict[0])
+      print("True number of tweets: ", before_test_Y[0])
       print("Mean Absolute Error: ", test_error)
 
     elif "period2" in test_fname:
@@ -106,6 +94,8 @@ if __name__ == "__main__":
       regr = RF_regr(between_event_X, between_event_Y)
       Y_predict = regr.predict(between_test_X)
       test_error = abs(between_test_Y[0] - Y_predict[0])
+      print("Predicted number of tweets: ", Y_predict[0])
+      print("True number of tweets: ", between_test_Y[0])
       print("Mean Absolute Error: ", test_error)
 
     elif "period3" in test_fname:
@@ -113,6 +103,8 @@ if __name__ == "__main__":
       regr = RF_regr(after_event_X, after_event_Y)
       Y_predict = regr.predict(after_test_X)
       test_error = abs(after_test_Y[0] - Y_predict[0])
+      print("Predicted number of tweets: ", Y_predict[0])
+      print("True number of tweets: ", after_test_Y[0])
       print("Mean Absolute Error: ", test_error)
 
     print('-'*20)
