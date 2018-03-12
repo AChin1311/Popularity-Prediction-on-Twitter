@@ -69,9 +69,24 @@ def RF_regr(X, Y):
 
 if __name__ == "__main__":
 
-  before_event_X, before_event_Y, between_event_X, between_event_Y, after_event_X, after_event_Y = Q1_4b.read_all_data(filenames)
-  print(len(before_event_X), len(between_event_X), len(after_event_X))
-  print(len(before_event_Y), len(between_event_Y), len(after_event_Y))
+  before_event_X = []
+  before_event_Y = []
+  between_event_X = [] 
+  between_event_Y = []
+  after_event_X = []
+  after_event_Y = []
+
+  for i, fname in enumerate(filenames):
+    print("reading file ", fname)
+    before_X, before_Y, between_X, between_Y, after_X, after_Y = Q1_4b.read_all_data(fname, i)
+    print(len(before_X), len(between_X), len(after_X))
+    print(len(before_Y), len(between_Y), len(after_Y))
+    before_event_X.extend(before_X)
+    before_event_Y.extend(before_Y)
+    between_event_X.extend(between_X) 
+    between_event_Y.extend(between_Y)
+    after_event_X.extend(after_X)
+    after_event_Y.extend(after_Y)
 
   for test_fname in test_filenames:
     print(test_fname)
